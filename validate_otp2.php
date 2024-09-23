@@ -579,9 +579,8 @@ echo '<script>alert("Record successfully added")</script>';
 }
 }
 ?>
-
-
-    <div class="col-lg-12 w-100">
+   
+   <div class="col-lg-12 w-100">
         <div class="modal fade" id="cartModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog container mod" style="max-width: 85%;">
                 <div class="modal-content">
@@ -618,7 +617,9 @@ echo '<script>alert("Record successfully added")</script>';
                                         <?php
                                         $i = 1;
                                         $subtotal_ = 0;
-                                        $discount_ = 0;
+                                        // $discount_ = 0;
+                                        $total_discount_sum = 0; // Sum of all discounts
+
                                         $bill_amt_ = 0;
                                         $advance_amt_ = 0;
 
@@ -635,6 +636,9 @@ echo '<script>alert("Record successfully added")</script>';
                                             $booking_date= $exe_['booking_date'];
                                             $final_dis = $exe_['final_discount'];
                                             $total_advance_amt = $advance * $qty;
+
+                                             // Add current row discount to total discount sum
+                                            $total_discount_sum += $final_dis;
                                         ?>
                                             <tr class="">
                                                 <td><?php echo $i; ?></td>
@@ -735,9 +739,16 @@ echo '<script>alert("Record successfully added")</script>';
                                 <div class="card p-3 mx-3 dis-next" style="width:95%">
                                     <h4 class="text-secondary text-center">Price Details</h4>
                                     <hr>
+
                                     <p class="" style="font-size:large;">Subtotal : <?php echo '<span class="">' . number_format($subtotal_) . '.00 </span>'; ?></p>
-                                    <p class="text-success" style="font-size:large;">Discount : <?php echo '- ' . number_format($discount_) . '.00'; ?></p>
+
+                                    
+                                    <p class="text-success" style="font-size:large;">Discount : <?php echo '- ' . number_format($total_discount_sum /* * $qty */) . '.00'; ?></p>
+                                    
+                                    <?php /* Calculate the bill amount */$bill_amt_ = $subtotal_ - $total_discount_sum; ?>
                                     <p class="" style="font-size:large;">Bill Amount : <?php echo number_format($bill_amt_) . '.00'; ?></p>
+
+                                    
                                     <p class="" style="font-size:large;">Advance Amount : <?php echo number_format($advance_amt_) . '.00'; ?></p>
                                     <hr>
                                     <p class="text-danger" style="font-size:large;">Balance Amount : <?php echo number_format($bill_amt_ - $advance_amt_) . '.00'; ?></p>
@@ -747,7 +758,9 @@ echo '<script>alert("Record successfully added")</script>';
                                     </div>
                                 </div>
                             </div>
-                        
+
+
+
                         <?php
                         if (mysqli_num_rows($run_query) == 0) {
                             echo '<script>document.getElementById("mytable").style.display="none";</script>';

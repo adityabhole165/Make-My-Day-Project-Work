@@ -1,0 +1,322 @@
+cart old code logic Line  584- 757
+
+
+
+    <div class="col-lg-12 w-100">
+        <div class="modal fade" id="cartModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog container mod" style="max-width: 85%;">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Cart Product List</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body mod-body">
+                        <?php
+                        $fetch_product_list = "SELECT * FROM m_booking WHERE mob=$_SESSION[mobile]";
+                        $run_query = mysqli_query($con, $fetch_product_list);
+                        ?>
+
+                        <!-- Add a wrapper div around the table -->
+                        
+                        <div class="go_next">
+                            <div class="table-responsive" style="max-height: 500px; overflow-y: auto;width:80%">
+                                <table class="table table-responsive table-striped mod-table" id="mytable">
+                                    <thead class="bg-primary text-white">
+                                        <tr>
+                                            <th class="sr">Sr No.</th>
+                                            <th>Menu Name</th>
+                                            <th class="mobtd">Quantity</th>
+                                            <th class="mobtd">Rate</th>
+                                            <th class="mobtd">Discount</th>
+                                            <th class="mobtd">Amount</th>
+                                            <th class="mobtd">Advance Amount</th>
+                                            <th class="mobtd">Booking Date</th>
+                                            <th class="mobtd">Edit Menu</th>
+                                            <th class="mobtd">Remove From Cart</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <?php
+                                        $i = 1;
+                                        $subtotal_ = 0;
+                                        $discount_ = 0;
+                                        $bill_amt_ = 0;
+                                        $advance_amt_ = 0;
+
+                                        while ($exe_ = mysqli_fetch_assoc($run_query)) {
+                                            $menu_name = $exe_['menu_name'];
+                                            $code = $exe_['menu_code'];
+                                            $menu_id = $exe_['menu_id'];
+                                            $qty = $exe_['quantity'];
+                                            $rate = $exe_['rate'];
+                                            $discount = $exe_['discount'];
+                                            $mrp = $exe_['total'];
+                                            $original = $exe_['subtotal'];
+                                            $advance = $exe_['advance_amt'];
+                                            $booking_date= $exe_['booking_date'];
+                                            $final_dis = $exe_['final_discount'];
+                                            $total_advance_amt = $advance * $qty;
+                                        ?>
+                                            <tr class="">
+                                                <td><?php echo $i; ?></td>
+                                                <td style="width:40%"><?php echo $menu_name;
+                                                echo '<p>' . $code .  ' <span> (₹' . $rate . ')</span>' . '</p>'; ?></td>
+                                                <td class="text-center mobtd"><?php echo $qty; ?></td>
+                                                <td class="text-center mobtd"><?php echo $rate; ?></td>
+                                                <td class="text-center mobtd"><?php echo $final_dis; ?></td>
+                                                <td class="text-center mobtd"><?php echo $mrp; ?></td>
+                                                <td class="text-center mobtd"><?php echo $advance; ?></td>
+                                                <td class="text-center mobtd"><?php echo date('d-m-Y', strtotime($booking_date)); ?></td>
+                                                <td class="text-center mobtd"><a href="validate_otp2.php?c=<?php echo $menu_id; ?>"><img src="pen.png" alt="" height="40px"></a></td>
+                                                <td class="text-center mobtd"><a href="#modalMy" data-bs-toggle="modal"><img src="delete.png" alt="" height="40px"></a></td>
+                                            </tr>
+                                            
+                                       
+                                        <?php
+                                            $subtotal_ += $original;
+                                            $discount_ += $final_dis;
+                                            $bill_amt_ += $mrp;
+                                            $advance_amt_ += $total_advance_amt;
+                                            $i++;
+                                        }
+                                       
+                                        mysqli_data_seek($run_query, 0);
+
+                                        ?>
+                                    </tbody>
+                                </table>
+                                
+                            </div>
+                           
+
+                            
+                        </div>
+                  
+                        <table class="table mobileTable">
+                            <thead>
+                                <tr>
+                                   <th>
+                                    Sr No.
+                                    </th>
+                                    <th>Menu Name</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                          
+                           <?php
+                           $i=1;
+                           while($exe_ = mysqli_fetch_assoc($run_query)){
+
+                            $menu_name = $exe_['menu_name'];
+                          
+                            $code = $exe_['menu_code'];
+                            $menu_id = $exe_['menu_id'];
+                            $qty = $exe_['quantity'];
+                            $rate = $exe_['rate'];
+                            $discount = $exe_['discount'];
+                            $mrp = $exe_['total'];
+                            $original = $exe_['subtotal'];
+                            $advance = $exe_['advance_amt'];
+                            $booking_date= $exe_['booking_date'];
+                            $final_dis = $exe_['final_discount'];
+                            $total_advance_amt = $advance * $qty;
+                           ?>
+                            
+                                <tr>
+                                <td>
+                                   <?php echo $i; ?> 
+
+                                </td>
+                                <td><?php echo $menu_name; 
+                                  echo '<p>' . $code .  ' <span> (₹' . $rate . ')</span>' . '</p>';
+                                ?>
+                            <div><b>Qty</b> <span><span class="mx-3">|</span><b class="mx-3">Rate</b></span><span><b></b></span></div>
+                         
+                            <div><?php echo $qty;?><span style="margin-left: 35%;"><?php echo $rate;?></span><span class="mx-2"><?php //echo $discount;?></span></div>
+                            
+                            <div><b>Amount</b> <span><b>|Booking Date</b></span></div>
+                            <div><span class="mx-4"><?php echo $mrp;?></span><span class="mx-2"><?php echo $booking_date;?></span></div>
+
+                            <div> <span><b>Edit</b></span><span class="mx-3">|</span><span><b class="mx-2">Delete</b></span></div>
+                            <div><span class="">
+                            <a href="validate_otp2.php?c=<?php echo $menu_id; ?>"><img src="pen.png" alt="" height="30px"></a>
+                            <a href="#modalMy" data-bs-toggle="modal" style="margin-left: 25%;"><img src="delete.png" alt="" height="30px"></a>
+                            </span></div>                           
+                            </td>
+                                        </tr>
+<?php
+     $i++;                     
+                           }
+
+                            ?>
+                            </tbody>
+                            </table>
+
+                            <div id="calculation">
+                                <div class="card p-3 mx-3 dis-next" style="width:95%">
+                                    <h4 class="text-secondary text-center">Price Details</h4>
+                                    <hr>
+
+                                    <p class="" style="font-size:large;">Subtotal : <?php echo '<span class="">' . number_format($subtotal_) . '.00 </span>'; ?></p>
+
+                                    <?php /* Calculate the discount */$total_discount = $discount_ * $qty;?>
+                                    <p class="text-success" style="font-size:large;">Discount : <?php echo '- ' . number_format($discount_ * $qty ) . '.00'; ?></p>
+                                    
+                                    <?php /* Calculate the bill amount */$bill_amt_ = $subtotal_ - $total_discount;; ?>
+                                    <p class="" style="font-size:large;">Bill Amount : <?php echo number_format($bill_amt_) . '.00'; ?></p>
+
+                                    
+                                    <p class="" style="font-size:large;">Advance Amount : <?php echo number_format($advance_amt_) . '.00'; ?></p>
+                                    <hr>
+                                    <p class="text-danger" style="font-size:large;">Balance Amount : <?php echo number_format($bill_amt_ - $advance_amt_) . '.00'; ?></p>
+                                    <hr>
+                                    <div class="text-center">
+                                        <button class="btn btn-primary">Proceed to Pay</button>
+                                    </div>
+                                </div>
+                            </div>
+                        
+chat gpt 
+
+<div class="col-lg-12 w-100">
+    <div class="table-responsive" style="max-height: 500px; overflow-y: auto;width:80%">
+        <table class="table table-responsive table-striped mod-table" id="mytable">
+            <thead class="bg-primary text-white">
+                <tr>
+                    <th class="sr">Sr No.</th>
+                    <th>Menu Name</th>
+                    <th class="mobtd">Quantity</th>
+                    <th class="mobtd">Rate</th>
+                    <th class="mobtd">Discount</th>
+                    <th class="mobtd">Amount</th>
+                    <th class="mobtd">Advance Amount</th>
+                    <th class="mobtd">Booking Date</th>
+                    <th class="mobtd">Edit Menu</th>
+                    <th class="mobtd">Remove From Cart</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php
+                $i = 1;
+                $subtotal_ = 0;
+                $total_discount_sum = 0; // Sum of all discounts
+                $bill_amt_ = 0;
+                $advance_amt_ = 0;
+
+                while ($exe_ = mysqli_fetch_assoc($run_query)) {
+                    $menu_name = $exe_['menu_name'];
+                    $code = $exe_['menu_code'];
+                    $menu_id = $exe_['menu_id'];
+                    $qty = $exe_['quantity'];
+                    $rate = $exe_['rate'];
+                    $discount = $exe_['discount'];
+                    $mrp = $exe_['total'];
+                    $original = $exe_['subtotal'];
+                    $advance = $exe_['advance_amt'];
+                    $booking_date= $exe_['booking_date'];
+                    $final_dis = $exe_['final_discount'];
+                    $total_advance_amt = $advance * $qty;
+                    
+                    // Add current row discount to total discount sum
+                    $total_discount_sum += $final_dis;
+                ?>
+                    <tr class="">
+                        <td><?php echo $i; ?></td>
+                        <td style="width:40%"><?php echo $menu_name;
+                        echo '<p>' . $code .  ' <span> (₹' . $rate . ')</span>' . '</p>'; ?></td>
+                        <td class="text-center mobtd"><?php echo $qty; ?></td>
+                        <td class="text-center mobtd"><?php echo $rate; ?></td>
+                        <td class="text-center mobtd"><?php echo $final_dis; ?></td>
+                        <td class="text-center mobtd"><?php echo $mrp; ?></td>
+                        <td class="text-center mobtd"><?php echo $advance; ?></td>
+                        <td class="text-center mobtd"><?php echo date('d-m-Y', strtotime($booking_date)); ?></td>
+                        <td class="text-center mobtd"><a href="validate_otp2.php?c=<?php echo $menu_id; ?>"><img src="pen.png" alt="" height="40px"></a></td>
+                        <td class="text-center mobtd"><a href="#modalMy" data-bs-toggle="modal"><img src="delete.png" alt="" height="40px"></a></td>
+                    </tr>
+                    
+                <?php
+                    // Update subtotals and other calculations
+                    $subtotal_ += $original;
+                    $bill_amt_ += $mrp;
+                    $advance_amt_ += $total_advance_amt;
+                    $i++;
+                }
+               
+                mysqli_data_seek($run_query, 0);
+
+                ?>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<table class="table mobileTable">
+    <thead>
+        <tr>
+           <th>Sr No.</th>
+           <th>Menu Name</th>
+        </tr>
+    </thead>
+    <tbody>
+  
+   <?php
+   $i=1;
+   while($exe_ = mysqli_fetch_assoc($run_query)){
+    $menu_name = $exe_['menu_name'];
+    $code = $exe_['menu_code'];
+    $menu_id = $exe_['menu_id'];
+    $qty = $exe_['quantity'];
+    $rate = $exe_['rate'];
+    $discount = $exe_['discount'];
+    $mrp = $exe_['total'];
+    $original = $exe_['subtotal'];
+    $advance = $exe_['advance_amt'];
+    $booking_date= $exe_['booking_date'];
+    $final_dis = $exe_['final_discount'];
+    $total_advance_amt = $advance * $qty;
+   ?>
+    <tr>
+        <td><?php echo $i; ?></td>
+        <td><?php echo $menu_name; 
+          echo '<p>' . $code .  ' <span> (₹' . $rate . ')</span>' . '</p>';
+        ?>
+        <div><b>Qty</b> <span><span class="mx-3">|</span><b class="mx-3">Rate</b></span><span><b></b></span></div>
+        <div><?php echo $qty;?><span style="margin-left: 35%;"><?php echo $rate;?></span><span class="mx-2"></span></div>
+        <div><b>Amount</b> <span><b>|Booking Date</b></span></div>
+        <div><span class="mx-4"><?php echo $mrp;?></span><span class="mx-2"><?php echo $booking_date;?></span></div>
+        <div> <span><b>Edit</b></span><span class="mx-3">|</span><span><b class="mx-2">Delete</b></span></div>
+        <div><span class="">
+        <a href="validate_otp2.php?c=<?php echo $menu_id; ?>"><img src="pen.png" alt="" height="30px"></a>
+        <a href="#modalMy" data-bs-toggle="modal" style="margin-left: 25%;"><img src="delete.png" alt="" height="30px"></a>
+        </span></div>                           
+        </td>
+    </tr>
+<?php
+ $i++;                     
+}
+?>
+</tbody>
+</table>
+
+<div id="calculation">
+    <div class="card p-3 mx-3 dis-next" style="width:95%">
+        <h4 class="text-secondary text-center">Price Details</h4>
+        <hr>
+        <p class="" style="font-size:large;">Subtotal : <?php echo '<span class="">' . number_format($subtotal_) . '.00 </span>'; ?></p>
+        
+        <!-- Use the total_discount_sum variable for discount calculation -->
+        <p class="text-success" style="font-size:large;">Discount : <?php echo '- ' . number_format($total_discount_sum) . '.00'; ?></p>
+        
+        <!-- Calculate the bill amount -->
+        <?php $bill_amt_ = $subtotal_ - $total_discount_sum; ?>
+        <p class="" style="font-size:large;">Bill Amount : <?php echo number_format($bill_amt_) . '.00'; ?></p>
+        
+        <p class="" style="font-size:large;">Advance Amount : <?php echo number_format($advance_amt_) . '.00'; ?></p>
+        <hr>
+        <p class="text-danger" style="font-size:large;">Balance Amount : <?php echo number_format($bill_amt_ - $advance_amt_) . '.00'; ?></p>
+        <hr>
+        <div class="text-center">
+            <button class="btn btn-primary">Proceed to Pay</button>
+        </div>
+    </div>
+</div>
