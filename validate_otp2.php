@@ -423,181 +423,27 @@ display: none !important;
         </style>
     </head>
     <?php
-    session_start();
-    $_SESSION['imageUrls'] = $imageUrls;
-
-if (isset($_POST['add_cart'])) {
-
-    $menuid = $_POST['menu_id'];
-    $hotelid=$_POST['hotel_id'];
-    $sectionid=$_POST['section_id'];
-    $menuname = $_POST['menu_name'];
-    $quantity = $_POST['quantity'];
-    $rate = $_POST['rate'];
-    $menu_code = $_POST['menu_code'];
-    $discount = $_POST['discount'];
-    $subtotal = $quantity * $rate;
-    $final_discount = $quantity * $discount;
-    $total = $subtotal - $final_discount;
-    $advance_amt = $_POST['advance_amt'];
-    $MRP = $_POST['MRP'];
-    $menu_sold = $_POST['menu_sold'];
-    $active = $_POST['active'];
-    $date=$_POST['date'];
-
-
-    // $curr_date = isset($date) ? $date : date('d-m-Y');
-    // $fetch_api = 'http://52.66.71.147/mmd/get_item_details.php?menu_id=' . $menuid . '&hotel_id=' . $hotelid . '&section_id=' . $sectionid . '&check_date=' . $curr_date;
-    //Fetch API
-    $run_fetch_api = curl_init();
-    curl_setopt($run_fetch_api, CURLOPT_URL, $fetch_api);
-    curl_setopt($run_fetch_api, CURLOPT_POST, true);
-    curl_setopt($run_fetch_api, CURLOPT_RETURNTRANSFER, true);
-    curl_setopt($run_fetch_api, CURLOPT_SSL_VERIFYPEER, false);
-    $fetch_res = curl_exec($run_fetch_api);
-    $output = json_decode($fetch_res, true);
-
-    $check_menu_sold = $output['result'][0]['menu_sold'];
-    // Validate quantity
-    if ($quantity <= 0) {
-        echo '<script>alert("Please enter the correct quantity.");</script>';
-        exit; // Stop further execution
-    }
-    
-
-    // Check if the menu_id already exists in m_booking
-    $fetch_cart_list = "SELECT COUNT(*) as count FROM m_booking WHERE menu_id = '$menuid' AND mob='$_SESSION[mobile]'";
-    $run_fetch_cart_list = mysqli_query($con, $fetch_cart_list);
-    $row = mysqli_fetch_assoc($run_fetch_cart_list);
-
-    if ($row['count'] > 0) {
-        // If menu_id already exists, show alert
-        // echo "<script>alert('Menu ID $menuid has already been booked.');</script>";
-$sql="UPDATE m_booking SET 
-                        menu_id='$menuid',
-                        menu_code='$menu_code', 
-                        menu_name='$menuname', 
-                        quantity='$quantity', 
-                        rate='$rate', 
-                        advance_amt='$advance_amt', 
-                        MRP='$MRP', 
-                        subtotal='$subtotal', 
-                        final_discount='$final_discount', 
-                        total='$total', 
-                        active='$active', 
-                        menu_sold='$menu_sold',
-                        booking_date='$date'
-                    WHERE menu_id=" .$menuid."";
-$run_sql=mysqli_query($con,$sql);
-// echo $sql;
-if($run_sql){
-echo '<script>alert("Record successfully added")</script>';
-}
-
-
-    } else if($check_menu_sold == 0) {
-        // If menu_id does not exist, insert the new record
-        $sql = "INSERT INTO m_booking(`menu_id`, `menu_code`, `menu_name`, `quantity`, `rate`, `discount`, `subtotal`, `final_discount`, `total`, `advance_amt`, `MRP`, `menu_sold`, `active`, `mob`, `booking_date`)
-                VALUES ('$menuid','$menu_code', '$menuname', '$quantity', '$rate', '$discount', '$subtotal', '$final_discount', '$total', '$advance_amt', '$MRP', '$menu_sold', '$active', '$_SESSION[mobile]','$date')";
-
-        $run_sql = mysqli_query($con, $sql);
- 
-        if ($run_sql) {
-           echo "<script>alert('Booking added successfully');</script>"; 
-        } else {
-            echo "<script>alert('Failed to add booking.');</script>";
-        }
-    } else{
-        echo '<script>alert("already sold out..");</script>';
-    }
-   
-} elseif (isset($_POST['update_cart'])) {
-    $menuid1 = $_POST['menu_id1'];
-    $hotelid1 =$_POST['hotel_id1'];
-    $sectionid1 =$_POST['section_id1'];
-    $menuname1 = $_POST['menu_name1'];
-    $quantity1 = $_POST['quantity1'];
-    $rate1 = $_POST['rate1'];
-    $menu_code1 = $_POST['menu_code1'];
-    $discount1 = $_POST['discount1'];
-    $subtotal1 = $quantity1 * $rate1;
-    $final_discount1 = $quantity1 * $discount1;
-    $total1 = $subtotal1 - $final_discount1;
-    $advance_amt1 = $_POST['advance_amt1'];
-    $MRP1 = $_POST['MRP1'];
-    $menu_sold1 = $_POST['menu_sold1'];
-    $active1 = $_POST['active1'];
-    $date=$_POST['date'];
-
-
-    $curr_date = isset($date) ? $date : date('d-m-Y');
-    $fetch_api = 'http://52.66.71.147/mmd/get_item_details.php?menu_id=' . $menuid1 . '&hotel_id=' . $hotelid1 . '&section_id=' . $sectionid1 . '&check_date=' . $curr_date;
-    //Fetch API
-    $run_fetch_api = curl_init();
-    curl_setopt($run_fetch_api, CURLOPT_URL, $fetch_api);
-    curl_setopt($run_fetch_api, CURLOPT_POST, true);
-    curl_setopt($run_fetch_api, CURLOPT_RETURNTRANSFER, true);
-    curl_setopt($run_fetch_api, CURLOPT_SSL_VERIFYPEER, false);
-    $fetch_res = curl_exec($run_fetch_api);
-    $output = json_decode($fetch_res, true);
-
-    $check_menu_sold = $output['result'][0]['menu_sold'];
-
-    // Validate quantity
-    if ($quantity1 <= 0) {
-        echo '<script>alert("Please enter the quantity.");</script>';
-        exit; // Stop further execution
-    }
-
-    if($check_menu_sold==0){
-    // Update the existing record
-    $update_query = "UPDATE m_booking SET 
-                        menu_code='$menu_code1', 
-                        menu_name='$menuname1', 
-                        quantity='$quantity1', 
-                        rate='$rate1', 
-                        advance_amt='$advance_amt1', 
-                        MRP='$MRP1', 
-                        subtotal='$subtotal1', 
-                        final_discount='$final_discount1', 
-                        total='$total1', 
-                        active='$active1', 
-                        menu_sold='$menu_sold1',
-                        booking_date='$date'
-                        WHERE menu_id=".$_GET['c'];
-
-    $update_query_run = mysqli_query($con, $update_query);
-
-    if ($update_query_run) {
-        echo "<script>alert('Booking Successfully Updated.');</script>";
-        echo '<script>location.replace("validate_otp2.php");</script>';
-    } else {
-        echo "<script>alert('Booking Not Updated.');</script>";
-    }
-} else{
-    echo "<script>alert('Already sold out..');</script>";
-}
-}
-?>
+    include('cart_handler.php');
+    ?>
    
    <div class="col-lg-12 w-100">
-        <div class="modal fade" id="cartModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog container mod" style="max-width: 85%;">
+        <!-- <div class="modal fade" id="cartModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true"> -->
+            <!-- <div class="modal-dialog container mod" style="max-width: 85%;">
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title" id="exampleModalLabel">Cart Product List</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body mod-body">
-                        <?php
+                    </div> -->
+                    <!-- <div class="modal-body mod-body"> -->
+                        <!-- <?php
                         $fetch_product_list = "SELECT * FROM m_booking WHERE mob=$_SESSION[mobile]";
                         $run_query = mysqli_query($con, $fetch_product_list);
                         ?>
 
-                        <!-- Add a wrapper div around the table -->
+                         Add a wrapper div around the table -->
                         
-                        <div class="go_next">
-                            <div class="table-responsive" style="max-height: 500px; overflow-y: auto;width:80%">
+                        <!-- <div class="go_next">
+                            <div class="table-responsive" style="max-height: 500px; overflow-y: auto;width:90%">
                                 <table class="table table-responsive table-striped mod-table" id="mytable">
                                     <thead class="bg-primary text-white">
                                         <tr>
@@ -640,19 +486,7 @@ echo '<script>alert("Record successfully added")</script>';
                                              // Add current row discount to total discount sum
                                             $total_discount_sum += $final_dis;
                                         ?>
-                                            <tr class="">
-                                                <td><?php echo $i; ?></td>
-                                                <td style="width:40%"><?php echo $menu_name;
-                                                echo '<p>' . $code .  ' <span> (₹' . $rate . ')</span>' . '</p>'; ?></td>
-                                                <td class="text-center mobtd"><?php echo $qty; ?></td>
-                                                <td class="text-center mobtd"><?php echo $rate; ?></td>
-                                                <td class="text-center mobtd"><?php echo $final_dis; ?></td>
-                                                <td class="text-center mobtd"><?php echo $mrp; ?></td>
-                                                <td class="text-center mobtd"><?php echo $advance; ?></td>
-                                                <td class="text-center mobtd"><?php echo date('d-m-Y', strtotime($booking_date)); ?></td>
-                                                <td class="text-center mobtd"><a href="validate_otp2.php?c=<?php echo $menu_id; ?>"><img src="pen.png" alt="" height="40px"></a></td>
-                                                <td class="text-center mobtd"><a href="#modalMy" data-bs-toggle="modal"><img src="delete.png" alt="" height="40px"></a></td>
-                                            </tr>
+                                         
                                             
                                        
                                         <?php
@@ -669,7 +503,7 @@ echo '<script>alert("Record successfully added")</script>';
                                     </tbody>
                                 </table>
                                 
-                            </div>
+                         </div>  -->
                            
 
                             
@@ -735,30 +569,32 @@ echo '<script>alert("Record successfully added")</script>';
                             </tbody>
                             </table>
 
-                            <div id="calculation">
-                                <div class="card p-3 mx-3 dis-next" style="width:95%">
-                                    <h4 class="text-secondary text-center">Price Details</h4>
-                                    <hr>
+                            <!-- <div id="calculation">
+                                <div class="card p-3 mx-3 dis-next" style="width:95%"> -->
+                                    <!-- <h4 class="text-secondary text-center">Price Details</h4> --> 
+                                    <!-- <hr> -->
 
-                                    <p class="" style="font-size:large;">Subtotal : <?php echo '<span class="">' . number_format($subtotal_) . '.00 </span>'; ?></p>
-
-                                    
-                                    <p class="text-success" style="font-size:large;">Discount : <?php echo '- ' . number_format($total_discount_sum /* * $qty */) . '.00'; ?></p>
-                                    
-                                    <?php /* Calculate the bill amount */$bill_amt_ = $subtotal_ - $total_discount_sum; ?>
-                                    <p class="" style="font-size:large;">Bill Amount : <?php echo number_format($bill_amt_) . '.00'; ?></p>
+                                    <!-- <p class="" style="font-size:large;">Subtotal : <?php //echo '<span class="">' . number_format($subtotal_) . '.00 </span>'; ?></p> -->
 
                                     
-                                    <p class="" style="font-size:large;">Advance Amount : <?php echo number_format($advance_amt_) . '.00'; ?></p>
-                                    <hr>
-                                    <p class="text-danger" style="font-size:large;">Balance Amount : <?php echo number_format($bill_amt_ - $advance_amt_) . '.00'; ?></p>
-                                    <hr>
-                                    <div class="text-center">
+                                    <!-- <p class="text-success" style="font-size:large;">Discount : <?php //echo '- ' . number_format($total_discount_sum /* * $qty */) . '.00'; ?></p> -->
+                                    
+                            <?php
+                            //include 'priceDetails.php';
+                            ?>
+                                    <?php /* Calculate the bill amount *///$bill_amt_ = $subtotal_ - $total_discount_sum; ?>
+                                    <!-- <p class="" style="font-size:large;">Bill Amount : <?php //echo number_format($bill_amt_) . '.00'; ?></p> -->
+
+                                    
+                                    <!-- <p class="" style="font-size:large;">Advance Amount : <?php //echo number_format($advance_amt_) . '.00'; ?></p> -->
+                                    <!-- <hr> -->
+                                    <!-- <p class="text-danger" style="font-size:large;">Balance Amount : <?php //echo number_format($bill_amt_ - $advance_amt_) . '.00'; ?></p> -->
+                                    <!-- <hr> -->
+                                    <!-- <div class="text-center">
                                         <button class="btn btn-primary">Proceed to Pay</button>
                                     </div>
-                                </div>
-                            </div>
-
+                                </div> -->
+                            </div> 
 
 
                         <?php
@@ -766,22 +602,20 @@ echo '<script>alert("Record successfully added")</script>';
                             echo '<script>document.getElementById("mytable").style.display="none";</script>';
                             echo '<script>document.getElementById("calculation").style.display="none";</script>';
                             echo '<div class="text-center">';
-                            echo '<img src="shopping.png" height="300"></img>';
+                            // echo '<img src="shopping.png" height="300"></img>';
                             echo '</div>';
-                            echo '<h3 class="text-center text-danger">Your cart is empty</h3>';
+                            // echo '<h3 class="text-center text-danger">Your cart is empty</h3>';
                         }
                         ?>
                     </div>
-                    <div class="modal-footer">
-                        <!-- Optional footer buttons -->
-                    </div>
+                
                 </div>
             </div>
         </div>
     </div>
 
 
-    <div id="modalMy" class="modal fade">
+    <!-- <div id="modalMy" class="modal fade">
         <div class="modal-dialog modal-confirm">
             <div class="modal-content">
                 <div class="modal-header flex-column">
@@ -796,11 +630,11 @@ echo '<script>alert("Record successfully added")</script>';
                 </div>
                 <div class="modal-footer justify-content-center">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                    <a href="delete.php?c=<?php echo $menu_id; ?>" class="text-white" id="delete"><button type="button" class="btn btn-danger">Delete</button></a>
+                    <a href="delete.php?c=<?php //echo $menu_id; ?>" class="text-white" id="delete"><button type="button" class="btn btn-danger">Delete</button></a>
                 </div>
             </div>
         </div>
-    </div>
+    </div> -->
 
 
 
@@ -812,7 +646,7 @@ echo '<script>alert("Record successfully added")</script>';
     $count = $fetch['total'];
     include('navbar.php');
 
-    $hotel_id = $_SESSION['hotel_id'];
+    $hotel_id = $_SESSION['hotel_id']; 
 
     $url = "http://52.66.71.147/mmd/disp_items_web.php?hotel_code=$hotel_id";
 
@@ -922,8 +756,7 @@ echo '<script>alert("Record successfully added")</script>';
                                         <div class="modal-content">
                                             <div class="modal-header">
                                                 <h5 class="modal-title"><?php echo $subCat ?></h5>
-                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                            </div>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" onclick="redirectToOTP()"></button>                                            </div>
                                             <div class="modal-body">
                                                 <div class="col-md-12">
                                                     <img src="<?php echo "proxy.php?id=$imageId"; ?>" alt="" style="width: 100%;" id="modalImg">
@@ -1053,96 +886,8 @@ echo '<script>alert("Record successfully added")</script>';
                             </div>
                         </div>
 
-                        <?php
-                        if (isset($_GET['c'])) {
-                            $fetch_ = "SELECT * FROM m_booking WHERE menu_id= ".$_GET['c']."  AND mob = $_SESSION[mobile] ";
-                            $fetch_run = mysqli_query($con, $fetch_);
-    
-                            $fetch_row_ = mysqli_fetch_array($fetch_run);
+                      <?php  include 'modal_cart.php'; ?>
 
-                        ?>
-                            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel-<?php echo $index; ?>" aria-hidden="true">
-                                <div class="modal-dialog">
-                                    <div class="modal-content">
-                                        <form action="" method="POST">
-                                            <div class="modal-header">
-                                                <h5 class="modal-title" id="exampleModalLabel-<?php echo $index; ?>"><?php echo $fetch_row_['menu_name']; ?></h5>
-                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" onclick="location.replace('validate_otp2.php')"></button>
-                                            </div>
-                                            <div class="modal-body">
-                                                <?php foreach($output['result'] as $in => $data): ?>
-                                                    
-                                            <?php
-                                               
-                                                if($fetch_row_['active'] == 1 && $fetch_row_['menu_sold'] == 0): ?>
-                                                        <div class="d-flex">
-                                                            <input type="hidden" name="menu_id1" value="<?php echo $fetch_row_['menu_id']; ?>">
-                                                            <input type="hidden" name="hotel_id1" value="<?php echo $result['hotel_id']; ?>">
-                                                            <input type="hidden" name="section_id1" value="<?php echo $result['section_id']; ?>">
-                                                            <input type="hidden" name="menu_code1" value="<?php echo $fetch_row_['menu_code']; ?>">
-                                                            <input type="hidden" name="menu_name1" value="<?php echo $fetch_row_['menu_name']; ?>">
-                                                            <input type="hidden" name="rate1" value="<?php echo $fetch_row_['rate']; ?>">
-                                                            <input type="hidden" name="discount1" value="<?php echo $fetch_row_['rate'] -$fetch_row_['MRP']; ?>">
-                                                            <input type="hidden" name="advance_amt1" value="<?php echo $fetch_row_['advance_amt']; ?>">
-                                                            <input type="hidden" name="MRP1" value="<?php echo $fetch_row_['MRP']; ?>">
-                                                            <input type="hidden" name="menu_sold1" value="<?php echo $fetch_row_['menu_sold']; ?>">
-                                                            <input type="hidden" name="active1" value="<?php echo $fetch_row_['active']; ?>">
-
-                                                            <p>Quantity:<input type="number" id="quantity1-<?php echo $index . '-' . $in; ?>" name="quantity1" placeholder="Quantity" class="form-control col-lg-8" value="<?php echo $fetch_row_['quantity'] ?>"></p>
-                                                            <p class="mx-5 text-danger"><b style="font-size: large;">Rate: <?php echo $fetch_row_['rate']; ?></b></p>
-                                                            <p class="text-success"><b style="font-size: large;">Discount: <span id="advanceAmt1-<?php echo $index . '-' . $in; ?>"><?php echo $fetch_row_['rate'] - $fetch_row_['MRP']; ?></span></b></p>
-                                                        </div>
-                                                    <div class="date col-5">
-                                                        <label for="">Select Date:</label>
-                                                        <input type="date" class="form-control" name="date" id="date" value="<?php echo date('Y-m-d'); ?>">
-                                                    </div>
-                                                        <div>
-                                                            <p class="my-3" style="font-size: larger;">Sub Total: <span id="mrp1-<?php echo $index . '-' . $in; ?>"><?php echo $fetch_row_['subtotal']; ?></span></p>
-                                                            <p class="my-3" style="font-size: larger;color:green;">Discount: <span id="discount1-<?php echo $index . '-' . $in; ?>"><?php echo $fetch_row_['final_discount']; ?></span></p>
-                                                            <p><b style="font-size: larger;">Total: <span id="total1-<?php echo $index . '-' . $in; ?>"><?php echo $fetch_row_['total']; ?></span></b></p>
-                                                        </div>
-                                                       
-                                                        <script>
-                                                            document.getElementById('quantity1-<?php echo $index . '-' . $in; ?>').addEventListener('input', function() {
-                                                                var quantity = document.getElementById('quantity1-<?php echo $index . '-' . $in; ?>').value;
-                                                                var rate = <?php echo $fetch_row_["rate"]; ?>;
-                                                                var discount = <?php echo $fetch_row_['rate'] - $fetch_row_['MRP']; ?>;
-                                                                var subdiscount = quantity * discount;
-                                                                var subtotal = quantity * rate;
-                                                                var total = subtotal - subdiscount;
-                                                                document.getElementById('mrp1-<?php echo $index . '-' . $in; ?>').innerText = subtotal;
-                                                                document.getElementById('total1-<?php echo $index . '-' . $in; ?>').innerText = total;
-                                                                document.getElementById('discount1-<?php echo $index . '-' . $in ?>').innerText = subdiscount;
-                                                            });
-                                                        </script>
-                                                    <?php elseif($fetch_row_['active'] == 1 && $fetch_row_['menu_sold'] != 0): ?>
-                                                        <div>
-                                                            <p class="text-danger text-center">This item is sold out..!</p>
-                                                        </div>
-                                                    <?php else: ?>
-                                                        <div>
-                                                            <p class="text-danger">This item is not activated..!</p>
-                                                        </div>
-                                                    <?php endif; ?>
-                                                <?php endforeach; ?>
-                                            </div>
-                                            <div class="modal-footer">
-                                                <button type="submit" class="btn btn-primary" name="update_cart">Update</button>
-                                            </div>
-                                        </form>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <script type="text/javascript">
-                                $(document).ready(function() {
-                                    $('#exampleModal').modal('show');
-                                });
-                            </script>
-
-                        <?php
-                        }
-                        ?>
 
                     <?php endforeach; ?>
 
@@ -1189,6 +934,7 @@ echo '<script>alert("Record successfully added")</script>';
                     }
                 </script>
 
+             
             <?php
         } else {
             echo '<script>alert("Sorry, you are not logged in..!"); location.replace("send_otp.php");</script>';

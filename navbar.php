@@ -41,6 +41,18 @@
 
 }
   </style>
+   <script>
+    // JavaScript function to redirect to the cart page
+    function goToCart() {
+      window.location.href = 'cart_product_list.php';
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+      // Add click event listeners to the cart elements
+      document.getElementById('cartHeader').addEventListener('click', goToCart);
+      document.getElementById('cartImage').addEventListener('click', goToCart);
+    });
+  </script>
 </head>
 <body>
   <?php
@@ -58,8 +70,8 @@ function animation() {
       
       }
   </style>
-  <h6 style="color:#fff;display:inline;">Cart</h6>
-  <img src="add-to-cart.png" height="33vh" class="animated-img" style="filter:invert(500);font-size:larger;">
+<h6 style="color:#fff;display:inline; href="cart_product_list.php" id="cartHeader">Cart</h6>
+  <img src="add-to-cart.png" id="cartImage" height="33vh" class="animated-img" style="filter:invert(500);font-size:larger;">
  ';
 }
 
@@ -73,7 +85,7 @@ function animation() {
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
         <li class="nav-item">
-         <a class="" href="#"><img src="images/logo.png" alt="" height="60"></a>
+         <a class="" href="cart_product_list.php"><img src="images/logo.png" alt="" height="60"></a>
         </li>
         <li class="nav-item my-2">
           <!-- <a class="nav-link active text-white" aria-current="page" href="send_otp.php">Home</a> -->

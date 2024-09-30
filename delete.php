@@ -5,7 +5,7 @@ $run_sql=mysqli_query($con,$sql);
 // echo $sql;
 if($run_sql){
     echo '<script>alert("Menu Item Successfully Removed..")</script>';
-    echo '<script>location.replace("Validate_otp2.php");</script>';
+    echo '<script>location.replace("cart_product_list.php");</script>';
 } else{
     echo '<script>alert("An Error Occurred..");</script>';
 }
