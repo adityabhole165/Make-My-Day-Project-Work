@@ -332,7 +332,7 @@ if (isset($_POST['add_cart']) || isset($_POST['update_cart'])) {
         </p>
         <p class="d-flex justify-content-between text-success" style="font-size:large;">
             <span>Discount :</span>
-            <span><?php echo '- ' . number_format($discount_) . '.00'; ?></span>
+            <span><?php echo  number_format($discount_) . '.00'; ?></span>
         </p>
         <p class="d-flex justify-content-between" style="font-size:large;">
             <span>Bill Amount :</span>

@@ -79,9 +79,9 @@ echo '<script>alert("Record successfully added")</script>';
         $run_sql = mysqli_query($con, $sql);
  
         if ($run_sql) {
-           echo "<script>alert('Booking added successfully');</script>"; 
+           //echo "<script>alert('Booking added successfully');</script>"; 
         } else {
-            echo "<script>alert('Failed to add booking.');</script>";
+            //echo "<script>alert('Failed to add booking.');</script>";
         }
     } else{
         echo '<script>alert("already sold out..");</script>';
