@@ -1,0 +1,355 @@
+  /* table */
+        .table-responsive {
+    overflow-x: auto;
+    margin-top: 20px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th,
+td {
+    padding: 12px;
+    text-align: center;
+    border: 1px solid #ddd;
+}
+
+thead {
+    background-color: #007bff;
+    color: white;
+}
+
+tbody tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+tbody td img {
+    cursor: pointer;
+    height: 30px; /* Set a default height for the images */
+    width: 30px; /* Set a default width for the images */
+}
+
+tbody tr td:nth-child(1) { /* Adjusted from 2nd to 1st (0-based) */
+    font-size: 16px;
+    font-weight: bold;
+}
+
+/* Laptop and larger view */
+@media (min-width: 769px) {
+    .table td,
+    .table th {
+        text-align: center;
+        vertical-align: middle;
+    }
+
+
+
+    
+    /* Increase width of Menu Name column for larger screens */
+    .table td:nth-child(1), /* Adjusted from 2nd to 1st (0-based) */
+    .table th:nth-child(1) { /* Adjusted from 2nd to 1st (0-based) */
+        width: 30%; /* Set to desired width percentage */
+    }
+
+    /* Combined Quantity and Rate Column */
+    .table td.combined {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    /* Set a minimum height for table rows to ensure equal height */
+    tbody tr {
+        min-height: 50px; /* Adjust as needed for your design */
+    }
+}
+
+/* Mobile View */
+@media (max-width: 768px) {
+    /* Hide thead for mobile */
+    .table thead {
+        display: none;
+    }
+
+    /* Set tr to block for mobile */
+    .table tr {
+        display: block;
+        margin-bottom: 15px;
+        border-bottom: 2px solid #ddd;
+    }
+
+    /* Create grid for mobile view */
+    .table td {
+        display: inline-block;
+        width: 50%;
+        text-align: left;
+        font-size: 13px;
+        border: none;
+        padding: 10px;
+        position: relative;
+        /* Ensuring all cells are of the same height */
+        min-height: 60px; /* Adjust to ensure equal height */
+        box-sizing: border-box; /* Include padding in height calculation */
+    }
+
+    /* Show label for each td for mobile view */
+    .table td:before {
+        content: attr(data-label);
+        font-weight: bold;
+        text-align: left;
+        margin-right: 10px;
+        float: left;
+    }
+
+    /* Adjust padding for buttons (edit and delete) */
+    .table td img {
+        height: 40px; /* Adjusted height for mobile */
+        width: 40px; /* Adjusted width for mobile */
+    }
+    .table td img[src*="pen.png"] {
+    height: 55px;
+    width: 55px; /* Increased height for pen.png */
+    }
+    .table td img[src*="delete.png"] {
+    height: 55px;
+    width: 55px; /* Increased height for pen.png */
+    }
+}
+
+    /* Position the Menu Name at the top and span both columns */
+    .table td.menu-name {
+        width: 100%; /* Full width for Menu Name */
+        font-weight: bold;
+        font-size: 16px;
+        text-align: center;
+        display: block; /* Ensure it occupies its own line */
+        margin-bottom: 10px; /* Add space below */
+    }
+
+    /* Adjust layout for other cells */
+    .table td:nth-child(0), /* Sr. No. */
+    .table td:nth-child(1), /* Menu Name */
+    .table td:nth-child(2), /* Combined (Quantity and Rate) */
+    .table td:nth-child(3), /* Discount */
+    .table td:nth-child(4), /* Amount */
+    .table td:nth-child(5), /* Advance Amount */
+    .table td:nth-child(6); /* Booking Date */
+    .table td:nth-child(7) /* Edit Menu */ {
+        width: 70%; /* Set each to take half of the row */
+        text-indent: 20px;
+    }
+
+    /* Hide specific headers for mobile */
+    .table th:nth-child(1), /* Menu Name */
+    .table th:nth-child(6), /* Edit Menu */
+    .table th:nth-child(7)  /* Remove From Cart */
+    {
+        display: none; /* Hide corresponding headers */
+    }
+    /* Hide Sr. No. for mobile view */
+    .table td.sr-no {
+        display: none;
+    }
+
+    /* Adjust layout to stack Quantity above Rate */
+    .table td:nth-child(2) { /* Combined */
+        width: 100%; /* Full width for Combined */
+        position: relative; /* Required for proper alignment */
+        display: flex; /* To align items */
+        justify-content: space-between; /* To space items */
+    }
+
+    /* Hide header for edit and delete buttons for mobile view */
+    .table td:nth-child(6),
+    .table td:nth-child(7) {
+        width: 50%;
+        text-align: center; /* Center buttons */
+    }
+
+    /* Adjust the layout for mobile view */
+    .table td:nth-child(odd) {
+        padding-right: 5px;
+    }
+
+    .table td:nth-child(even) {
+        padding-left: 5px;
+    }
+}
+version 2 :
+        .table-responsive {
+    overflow-x: auto;
+    margin-top: 20px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th,
+td {
+    padding: 12px;
+    text-align: center;
+    border: 1px solid #ddd;
+}
+
+thead {
+    background-color: #007bff;
+    color: white;
+}
+
+tbody tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+tbody td img {
+    cursor: pointer;
+    height: 30px; /* Set a default height for the images */
+    width: 30px; /* Set a default width for the images */
+}
+
+tbody tr td:nth-child(1) { /* Adjusted from 2nd to 1st (0-based) */
+    font-size: 16px;
+    font-weight: bold;
+}
+
+/* Laptop and larger view */
+@media (min-width: 769px) {
+    .table td,
+    .table th {
+        text-align: center;
+        vertical-align: middle;
+    }
+
+    /* Increase width of Menu Name column for larger screens */
+    .table td:nth-child(1), /* Adjusted from 2nd to 1st (0-based) */
+    .table th:nth-child(1) { /* Adjusted from 2nd to 1st (0-based) */
+        width: 30%; /* Set to desired width percentage */
+    }
+
+    /* Combined Quantity and Rate Column */
+    .table td.combined {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    /* Set a minimum height for table rows to ensure equal height */
+    tbody tr {
+        min-height: 50px; /* Adjust as needed for your design */
+    }
+}
+
+/* Mobile View */
+@media (max-width: 768px) {
+    /* Hide thead for mobile */
+    .table thead {
+        display: none;
+    }
+
+    /* Set tr to block for mobile */
+    .table tr {
+        display: block;
+        margin-bottom: 15px;
+        border-bottom: 2px solid #ddd;
+    }
+
+    /* Create grid for mobile view */
+    .table td {
+        display: inline-block;
+        width: 50%;
+        text-align: left;
+        font-size: 13px;
+        border: none;
+        padding: 10px;
+        position: relative;
+        /* Ensuring all cells are of the same height */
+        min-height: 60px; /* Adjust to ensure equal height */
+        box-sizing: border-box; /* Include padding in height calculation */
+    }
+
+    /* Show label for each td for mobile view */
+    .table td:before {
+        content: attr(data-label);
+        font-weight: bold;
+        text-align: left;
+        margin-right: 10px;
+        float: left;
+    }
+
+    /* Adjust padding for buttons (edit and delete) */
+    .table td img {
+        height: 59px; /* Adjusted height for mobile */
+        width: 59px; /* Adjusted width for mobile */
+    }
+    .table td img[src*="pen.png"] {
+    height: auto;
+    width: 55px; /* Increased height for pen.png */
+    }
+    .table td img[src*="delete.png"] {
+    height: 55px;
+    width: 55px; /* Increased height for pen.png */
+    }
+}
+
+    /* Position the Menu Name at the top and span both columns */
+    .table td.menu-name {
+        width: 100%; /* Full width for Menu Name */
+        font-weight: bold;
+        font-size: 16px;
+        text-align: center;
+        display: block; /* Ensure it occupies its own line */
+        margin-bottom: 10px; /* Add space below */
+    }
+
+    /* Adjust layout for other cells */
+    .table td:nth-child(0), /* Sr. No. */
+    .table td:nth-child(1), /* Menu Name */
+    .table td:nth-child(2), /* Combined (Quantity and Rate) */
+    .table td:nth-child(3), /* Discount */
+    .table td:nth-child(4), /* Amount */
+    .table td:nth-child(5), /* Advance Amount */
+    .table td:nth-child(6); /* Booking Date */
+    .table td:nth-child(7) /* Edit Menu */ {
+        width: 70%; /* Set each to take half of the row */
+        text-indent: 20px;
+    }
+
+    /* Hide specific headers for mobile */
+    .table th:nth-child(1), /* Menu Name */
+    .table th:nth-child(6), /* Edit Menu */
+    .table th:nth-child(7)  /* Remove From Cart */
+    {
+        display: none; /* Hide corresponding headers */
+    }
+    /* Hide Sr. No. for mobile view */
+    .table td.sr-no {
+        display: none;
+    }
+
+    /* Adjust layout to stack Quantity above Rate */
+    .table td:nth-child(2) { /* Combined */
+        width: 100%; /* Full width for Combined */
+        position: relative; /* Required for proper alignment */
+        display: flex; /* To align items */
+        justify-content: space-between; /* To space items */
+    }
+
+    /* Hide header for edit and delete buttons for mobile view */
+    .table td:nth-child(6),
+    .table td:nth-child(7) {
+        width: 50%;
+        text-align: center; /* Center buttons */
+    }
+
+    /* Adjust the layout for mobile view */
+    .table td:nth-child(odd) {
+        padding-right: 5px;
+    }
+
+    .table td:nth-child(even) {
+        padding-left: 5px;
+    }
+}

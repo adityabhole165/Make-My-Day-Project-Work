@@ -1,0 +1,203 @@
+.table td img[src*="pen.png"] {
+    height: 30px; /* Increased height for pen.png */
+}
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .table-responsive {
+    overflow-x: auto;
+    margin-top: 20px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th,
+td {
+    padding: 12px;
+    text-align: center;
+    border: 1px solid #ddd;
+}
+
+thead {
+    background-color: #007bff;
+    color: white;
+}
+
+tbody tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+tbody td img {
+    cursor: pointer;
+    height: 30px; /* Set a default height for the images */
+    width: 30px; /* Set a default width for the images */
+}
+
+tbody tr td:nth-child(1) {
+    font-size: 16px;
+    font-weight: bold;
+}
+
+/* Laptop and larger view */
+@media (min-width: 769px) {
+    .table td,
+    .table th {
+        text-align: center;
+        vertical-align: middle;
+    }
+
+    /* Increase width of Menu Name column for larger screens */
+    .table td:nth-child(2), /* Adjusted to 2nd column for Menu Name */
+    .table th:nth-child(2) {
+        width: 30%;
+    }
+
+    /* Combined Quantity and Rate Column */
+    .table td.combined {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+}
+
+/* Mobile View */
+@media (max-width: 768px) {
+    /* Hide thead for mobile */
+    .table thead {
+        display: none;
+    }
+
+    /* Hide the Sr. No column (first column) */
+    .table td:nth-child(1), /* Sr. No. */
+    .table th:nth-child(1) {
+        display: none;
+    }
+
+    /* Set tr to block for mobile */
+    .table tr {
+        display: block;
+        margin-bottom: 15px;
+        border-bottom: 2px solid #ddd;
+    }
+
+    /* Display Menu Name above Quantity and Rate */
+    .table td.menu-name {
+        width: 100%;
+        font-weight: bold;
+        font-size: 16px;
+        text-align: center;
+        display: block;
+        margin-bottom: 10px;
+    }
+
+    /* Create grid for mobile view */
+    .table td {
+        display: flex;
+        flex: 1;
+        justify-content: space-between;
+        align-items: stretch;
+        width: 50%;
+        text-align: left;
+        font-size: 13px;
+        border: none;
+        padding: 10px;
+        position: relative;
+    }
+
+    .table td:before {
+        content: attr(data-label);
+        font-weight: bold;
+        margin-right: 10px;
+        float: left;
+    }
+
+    /* Adjust padding for buttons */
+    .table td img {
+        height: 40px;
+        width: 40px;
+    }
+
+    /* Align Quantity and Rate together */
+    .table tr.quantity-rate {
+        width: 100%; /* Full width for quantity-rate row */
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 5px; /* Space between rows */
+    }
+
+    .table td.quantity,
+    .table td.rate {
+        width: 50%; /* Each occupies half */
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    /* Adjust Discount and Amount styles */
+    .table td.discount,
+    .table td.amount {
+        width: 50%; /* Each occupies half */
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-top: 5px; /* Space above Discount and Amount */
+    }
+
+    .table td:nth-child(6),
+    .table td:nth-child(7) {
+        width: 50%;
+        text-align: center;
+    }
+
+    /* Ensure consistent padding */
+    .table td:nth-child(odd) {
+        padding-right: 5px;
+    }
+
+    .table td:nth-child(even) {
+        padding-left: 5px;
+    }
+}
+
+    </style>
+</head>
+<body>
+<div class="table-responsive">
+    <table class="table">
+        <tbody>
+            <tr class="menu-row">
+                <td class="menu-name" colspan="3" data-label="Menu Name">Menu Name 1</td>
+            </tr>
+            <tr class="quantity-rate">
+                <td class="quantity" data-label="Quantity">1</td>
+                <td class="rate" data-label="Rate">$10.00</td>
+            </tr>
+            <tr class="menu-details">
+                <td class="discount" data-label="Discount">10%</td>
+                <td class="amount" data-label="Amount">$9.00</td>
+            </tr>
+            <tr class="menu-details">
+                <td class="advance-amount" data-label="Advance Amount">$5.00</td>
+                <td class="booking-date" data-label="Booking Date">2024-10-02</td>
+            </tr>
+            <tr class="menu-actions">
+                <td class="edit-menu">edit</td>
+                <td class="remove-from">delete</td>
+            </tr>
+            <!-- Repeat for more menu items -->
+        </tbody>
+    </table>
+</div>
+
+</body>
+</html>

@@ -431,7 +431,7 @@ tbody tr td:nth-child(1) { /* Adjusted from 2nd to 1st (0-based) */
         $advance_amt_ = 0;
         ?>
 
-      <!-- Table --><!-- Table -->
+      <!-- Table -->
 <div class="table-responsive">
     <table class="table table-striped table-bordered text-center">
         <thead class="thead-dark">
@@ -455,12 +455,6 @@ tbody tr td:nth-child(1) { /* Adjusted from 2nd to 1st (0-based) */
             $result = mysqli_query($con, $query);
             $count = 1;
 
-            // Initialize totals for PHP calculation
-            $subtotal_ = 0;
-            $discount_ = 0;
-            $bill_amt_ = 0;
-            $advance_amt_ = 0;
-
             while ($row = mysqli_fetch_assoc($result)) {
                 $menu_name = $row['menu_name'];
                 $menu_id = $row['menu_id'];
@@ -479,6 +473,7 @@ tbody tr td:nth-child(1) { /* Adjusted from 2nd to 1st (0-based) */
                 $bill_amt_ += $mrp;
                 $advance_amt_ += $total_advance_amt;
 
+                // Display rows with data-label attributes for mobile view
                 echo "<tr>";
                 echo "<td class='sr-no' data-label='Sr. No.'>{$count}</td>";
                 echo "<td data-label='Menu Name'>{$menu_name}</td>";
@@ -492,7 +487,7 @@ tbody tr td:nth-child(1) { /* Adjusted from 2nd to 1st (0-based) */
                 // Edit and delete buttons
                 echo "<td data-label='Edit Menu'>
                         <a href='Update.php?menu_id={$menu_id}'>
-                            <img src='pen.png' alt='Edit' height='30px'>
+                            <img src='pen.png' alt='Edit' height='30px' margin-top='10px'>
                         </a>
                       </td>";
                 echo "<td data-label='Remove From Cart'>
@@ -514,26 +509,26 @@ tbody tr td:nth-child(1) { /* Adjusted from 2nd to 1st (0-based) */
     <div class="card p-3 mx-3 dis-next" style="width:95%">
         <h3 class="text-secondary text-center">Price Details</h3>
         <hr>
-        <p class="d-flex justify-content-between" style="font-size: large;">
+        <p class="d-flex justify-content-between" style="font-size:large;">
             <span>Subtotal :</span>
-            <span id="subtotal">0.00</span>
+            <span><?php echo number_format($subtotal_) . '.00'; ?></span>
         </p>
-        <p class="d-flex justify-content-between text-success" style="font-size: large;">
+        <p class="d-flex justify-content-between text-success" style="font-size:large;">
             <span>Discount :</span>
-            <span id="discount">0.00</span>
+            <span><?php echo  number_format($discount_) . '.00'; ?></span>
         </p>
-        <p class="d-flex justify-content-between" style="font-size: large;">
+        <p class="d-flex justify-content-between" style="font-size:large;">
             <span>Bill Amount :</span>
-            <span id="total">0.00</span>
+            <span><?php echo number_format($bill_amt_) . '.00'; ?></span>
         </p>
-        <p class="d-flex justify-content-between" style="font-size: large;">
+        <p class="d-flex justify-content-between" style="font-size:large;">
             <span>Advance Amount :</span>
-            <span id="advanceAmount">0.00</span>
+            <span><?php echo number_format($advance_amt_) . '.00'; ?></span>
         </p>
         <hr>
-        <p class="d-flex justify-content-between text-danger" style="font-size: large;">
+        <p class="d-flex justify-content-between text-danger" style="font-size:large;">
             <span>Balance Amount :</span>
-            <span id="balanceAmount">0.00</span>
+            <span><?php echo number_format($bill_amt_ - $advance_amt_) . '.00'; ?></span>
         </p>
         <hr>
         <div class="text-center">
@@ -641,45 +636,30 @@ function showCalculation() {
 </script>
 
     <script>
-       // Calculate price details
-// Calculate price details
-function calculateTotal() {
-    let subtotal = 0;
-    let totalDiscount = 0;
-    let totalAdvance = 0;
-    let totalBillAmount = 0;
+        // Calculate price details
+        function calculateTotal() {
+            let subtotal = 0;
+            let discount = 0;
+            let total = 0;
 
-    const rows = document.querySelectorAll("tbody tr");
+            const rows = document.querySelectorAll("tbody tr");
+            rows.forEach(row => {
+                const quantity = parseInt(row.cells[2].textContent);
+                const rate = parseFloat(row.cells[3].textContent);
+                const discountValue = parseFloat(row.cells[4].textContent);
 
-    rows.forEach(row => {
-        const quantity = parseInt(row.querySelector("[data-label='Quantity']").textContent);
-        const rate = parseFloat(row.querySelector("[data-label='Rate']").textContent);
-        const discount = parseFloat(row.querySelector("[data-label='Discount']").textContent);
-        const amount = parseFloat(row.querySelector("[data-label='Amount']").textContent);
-        const advanceAmount = parseFloat(row.querySelector("[data-label='Advance Amount']").textContent);
+                subtotal += (quantity * rate);
+                discount += (quantity * discountValue);
+            });
 
-        // Calculate subtotal, discount, and advance amount
-        subtotal += (quantity * rate);
-        totalDiscount += (quantity * discount);
-        totalAdvance += advanceAmount;
-        totalBillAmount += amount;
-    });
+            total = subtotal - discount;
 
-    // Calculate the final total
-    const finalTotal = subtotal - totalDiscount;
+            document.getElementById("subtotal").textContent = `$${subtotal.toFixed(2)}`;
+            document.getElementById("discount").textContent = `$${discount.toFixed(2)}`;
+            document.getElementById("total").textContent = `$${total.toFixed(2)}`;
+        }
 
-    // Update the HTML elements with the calculated values
-    document.getElementById("subtotal").textContent = `$${subtotal.toFixed(2)}`;
-    document.getElementById("discount").textContent = `$${totalDiscount.toFixed(2)}`;
-    document.getElementById("total").textContent = `$${finalTotal.toFixed(2)}`;
-    document.getElementById("advanceAmount").textContent = `$${totalAdvance.toFixed(2)}`;
-    document.getElementById("balanceAmount").textContent = `$${(finalTotal - totalAdvance).toFixed(2)}`;
-}
-
-// Call calculateTotal when the window loads
-window.onload = calculateTotal;
-
-
+        window.onload = calculateTotal;
     </script>
      
 
