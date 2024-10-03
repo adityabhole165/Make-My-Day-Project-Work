@@ -145,49 +145,49 @@ if (isset($_POST['add_cart']) || isset($_POST['update_cart'])) {
         }
         /* table */  
         .table-responsive {
-    overflow-x: auto;
-    margin-top: 20px;
-}
+            overflow-x: auto;
+            margin-top: 20px;
+        }
 
-table {
-    width: 100%;
-    border-collapse: collapse;
-}
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
 
-th,
-td {
-    padding: 12px;
-    text-align: center;
-    border: 1px solid #ddd;
-}
-
-thead {
-    background-color: #007bff;
-    color: white;
-}
-
-tbody tr:nth-child(even) {
-    background-color: #f2f2f2;
-}
-
-tbody td img {
-    cursor: pointer;
-    height: 30px; /* Set a default height for the images */
-    width: 30px; /* Set a default width for the images */
-}
-
-tbody tr td:nth-child(1) { /* Adjusted from 2nd to 1st (0-based) */
-    font-size: 16px;
-    font-weight: bold;
-}
-
-/* Laptop and larger view */
-@media (min-width: 769px) {
-    .table td,
-    .table th {
+    th,
+    td {
+        padding: 12px;
         text-align: center;
-        vertical-align: middle;
+        border: 1px solid #ddd;
+    }   
+
+    thead {
+        background-color: #007bff;
+        color: white;
+    }   
+
+    tbody tr:nth-child(even) {
+        background-color: #f2f2f2;
     }
+
+    tbody td img {
+        cursor: pointer;
+        height: 30px; /* Set a default height for the images */
+        width: 30px; /* Set a default width for the images */
+    }
+
+    tbody tr td:nth-child(1) { /* Adjusted from 2nd to 1st (0-based) */
+        font-size: 16px;
+        font-weight: bold;
+    }
+
+    /* Laptop and larger view */
+    @media (min-width: 769px) {
+        .table td,
+        .table th {
+            text-align: center;
+            vertical-align: middle;
+        }
 
     /* Set specific widths for each column */
     .table td:nth-child(1), /* Sr. No. */
@@ -431,23 +431,23 @@ tbody tr td:nth-child(1) { /* Adjusted from 2nd to 1st (0-based) */
         $advance_amt_ = 0;
         ?>
 
-      <!-- Table --><!-- Table -->
-<div class="table-responsive">
-    <table class="table table-striped table-bordered text-center">
-        <thead class="thead-dark">
-            <tr>
-                <th>Sr. No.</th>
-                <th>Menu Name</th>
-                <th>Quantity</th>
-                <th>Rate</th>
-                <th>Discount</th>
-                <th>Amount</th>
-                <th>Advance Amount</th>
-                <th>Booking Date</th>
-                <th>Edit Menu</th>
-                <th>Remove From</th>
-            </tr>
-        </thead>
+        <!-- Table -->
+    <div class="table-responsive">
+        <table class="table table-striped table-bordered text-center">
+            <thead class="thead-dark">
+                <tr>
+                    <th>Sr. No.</th>
+                    <th>Menu Name</th>
+                    <th>Quantity</th>
+                    <th>Rate</th>
+                    <th>Discount</th>
+                    <th>Amount</th>
+                    <th>Advance Amount</th>
+                    <th>Booking Date</th>
+                    <th>Edit Menu</th>
+                    <th>Remove From</th>
+                </tr>
+            </thead>
         <tbody>
             <?php
             $mob = $_SESSION['mobile'];
@@ -511,32 +511,32 @@ tbody tr td:nth-child(1) { /* Adjusted from 2nd to 1st (0-based) */
 
         <!-- Calculation Card -->
         <div id="calculation">
-    <div class="card p-3 mx-3 dis-next" style="width:95%">
-        <h3 class="text-secondary text-center">Price Details</h3>
-        <hr>
-        <p class="d-flex justify-content-between" style="font-size: large;">
+            <div class="card p-3 mx-3 dis-next" style="width:95%">
+            <h3 class="text-secondary text-center">Price Details</h3>
+            <hr>
+            <p class="d-flex justify-content-between" style="font-size: large;">
             <span>Subtotal :</span>
             <span id="subtotal">0.00</span>
-        </p>
-        <p class="d-flex justify-content-between text-success" style="font-size: large;">
+            </p>
+            <p class="d-flex justify-content-between text-success" style="font-size: large;">
             <span>Discount :</span>
             <span id="discount">0.00</span>
-        </p>
-        <p class="d-flex justify-content-between" style="font-size: large;">
+            </p>
+            <p class="d-flex justify-content-between" style="font-size: large;">
             <span>Bill Amount :</span>
             <span id="total">0.00</span>
-        </p>
-        <p class="d-flex justify-content-between" style="font-size: large;">
+            </p>
+            <p class="d-flex justify-content-between" style="font-size: large;">
             <span>Advance Amount :</span>
             <span id="advanceAmount">0.00</span>
-        </p>
-        <hr>
-        <p class="d-flex justify-content-between text-danger" style="font-size: large;">
+            </p>
+            <hr>
+            <p class="d-flex justify-content-between text-danger" style="font-size: large;">
             <span>Balance Amount :</span>
             <span id="balanceAmount">0.00</span>
-        </p>
-        <hr>
-        <div class="text-center">
+            </p>
+            <hr>
+            <div class="text-center">
             <button class="btn btn-primary">Proceed to Pay</button>
         </div>
     </div>
@@ -555,9 +555,9 @@ tbody tr td:nth-child(1) { /* Adjusted from 2nd to 1st (0-based) */
         ?>
     </div>
 </div>
-
+</div>
 <!-- Modal for confirming deletion -->
-</div><div id="modalMy" class="modal fade">
+<div id="modalMy" class="modal fade">
     <div class="modal-dialog modal-confirm">
     <div class="modal-content">
     <div class="modal-header">
@@ -621,28 +621,9 @@ function showCalculation() {
         }
     });
 </script>
-
-
-<!-- hide Delete div -->
-<script>
-/* Hide delete div */
-// document.getElementById('modalMy').style.display = 'none';
-// function showCalculation() {
-//     let calculationDiv = document.getElementById('modalMy');
-//     calculationDiv.style.display = 'block';  // Show the calculation div
-// }
-
-// function hideCartModal() {
-//     let modalDialog = document.querySelector('.modal-dialog');
-//     if (modalDialog) {
-//         modalDialog.style.display = 'none';
-//     }
-// }
-</script>
-
     <script>
        // Calculate price details
-// Calculate price details
+
 function calculateTotal() {
     let subtotal = 0;
     let totalDiscount = 0;
@@ -669,11 +650,11 @@ function calculateTotal() {
     const finalTotal = subtotal - totalDiscount;
 
     // Update the HTML elements with the calculated values
-    document.getElementById("subtotal").textContent = `$${subtotal.toFixed(2)}`;
-    document.getElementById("discount").textContent = `$${totalDiscount.toFixed(2)}`;
-    document.getElementById("total").textContent = `$${finalTotal.toFixed(2)}`;
-    document.getElementById("advanceAmount").textContent = `$${totalAdvance.toFixed(2)}`;
-    document.getElementById("balanceAmount").textContent = `$${(finalTotal - totalAdvance).toFixed(2)}`;
+    document.getElementById("subtotal").textContent = `${subtotal.toFixed(2)}`;
+    document.getElementById("discount").textContent = `${totalDiscount.toFixed(2)}`;
+    document.getElementById("total").textContent = `${finalTotal.toFixed(2)}`;
+    document.getElementById("advanceAmount").textContent = `${totalAdvance.toFixed(2)}`;
+    document.getElementById("balanceAmount").textContent = `${(finalTotal - totalAdvance).toFixed(2)}`;
 }
 
 // Call calculateTotal when the window loads
