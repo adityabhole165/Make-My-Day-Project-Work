@@ -9,7 +9,8 @@
 </head>
 <body>
 <?php
-$con = mysqli_connect('localhost', 'root', '', 'mmd');
+// $con = mysqli_connect('localhost', 'root', '', 'mmd');
+include('connection.php');
 $sql = "SELECT * FROM m_menuitems";
 $run = mysqli_query($con, $sql);
 

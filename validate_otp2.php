@@ -2,7 +2,9 @@
 error_reporting(0);
 ini_set('session.gc_maxlifetime', 300);
 session_set_cookie_params(300);
-include('include_db.php');
+// include('include_db.php');
+include('constant.php');
+include('connection.php');
 session_start();
 if (!empty($_SESSION['stored_otp']) && !empty($_SESSION['hotel_id'])) {
 

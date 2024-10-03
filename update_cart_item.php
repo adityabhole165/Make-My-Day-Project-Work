@@ -1,7 +1,7 @@
 <?php
 session_start();
-$con = mysqli_connect('localhost', 'root', '', 'mmd');
-
+// $con = mysqli_connect('localhost', 'root', '', 'mmd');
+include('connection.php');
 // Check connection
 if (!$con) {
     die("Connection failed: " . mysqli_connect_error());

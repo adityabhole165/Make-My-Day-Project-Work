@@ -1,5 +1,5 @@
 <?php
-include('include_db.php');
+include('connection.php');
 $sql="DELETE FROM m_booking WHERE menu_id=".$_GET['c'];
 $run_sql=mysqli_query($con,$sql);
 // echo $sql;

@@ -7,8 +7,7 @@
 </head>
 <body>
     <?php
-    $con = mysqli_connect('localhost', 'root', '', 'mmd');
-
+include('connection.php');
     if ($_SERVER['REQUEST_METHOD'] == "POST") {
         $menu_id = $_POST['menuId'];
         $menu_name = $_POST['menuName'];

@@ -2,7 +2,8 @@
 <!-- version 3 -->
 <?php 
 session_start();
-$con = mysqli_connect('localhost', 'root', '', 'mmd');
+// $con = mysqli_connect('localhost', 'root', '', 'mmd');
+include('connection.php');
 
 if (isset($_POST['add_cart']) || isset($_POST['update_cart'])) {
     $menuid = $_POST['menu_id'] ?? $_POST['menu_id1'];
